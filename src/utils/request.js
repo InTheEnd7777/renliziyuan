@@ -13,18 +13,12 @@ const istime = function () {
   //登录的时间
   const tokenTime = gettokentime()
   //token的保质期
-  const timeout = 3 * 1000
+  const timeout = 2*60*60 * 1000
   return currentTime - tokenTime > timeout
 }
 service.interceptors.request.use(async (config) => {
   // console.log(config)
   if (store.state.user.token) {
-    // 当前的时间
-    // const currentTime = Date.now()
-    // //登录的时间
-    // const tokenTime = gettokentime()
-    // //token的保质期
-    // const timeout = 10 * 1000000
 
     if (istime()) {
       // console.log('token过期')
