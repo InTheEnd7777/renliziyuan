@@ -11,7 +11,7 @@ import '@/styles/index.scss' // global css
 import App from './App'
 import store from './store'
 import router from './router'
-
+import * as directive from '@/directives'
 import '@/icons' // icon
 import '@/permission' // permission control
 
@@ -34,7 +34,16 @@ Vue.use(ElementUI, { locale })
 // Vue.use(ElementUI)
 
 Vue.config.productionTip = false
-
+for(let key in directive){
+  Vue.directive(key,directive[key])
+}
+// Vue.directive('imgError',{
+//   inserted:function(el,{value}){
+//     el.onerror=function(){
+//       el.src=value
+//     }
+//   }
+// })
 new Vue({
   el: '#app',
   router,
