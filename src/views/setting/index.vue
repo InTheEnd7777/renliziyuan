@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-container">
     <div class="app-container">
-          <el-tabs v-model="activeName">
+      <el-tabs v-model="activeName">
         <el-tab-pane label="用户管理" name="first">
           <el-button type="primary" @click="addbtn">新增</el-button>
           <!-- 表格 -->
@@ -13,7 +13,9 @@
             <el-table-column prop="description" label="描述"> </el-table-column>
             <el-table-column label="操作">
               <template slot-scope="{ row }">
-                <el-button size="small" type="success">分配权限</el-button>
+                <el-button size="small" type="success" @click="isshowtnb"
+                  >分配权限</el-button
+                >
                 <el-button size="small" type="primary" plain>编辑</el-button>
                 <el-button
                   size="small"
@@ -40,7 +42,9 @@
               <el-input v-model="this.getcompanyinfo1.name"></el-input>
             </el-form-item>
             <el-form-item label="公司地址">
-              <el-input v-model="this.getcompanyinfo1.companyAddress"></el-input>
+              <el-input
+                v-model="this.getcompanyinfo1.companyAddress"
+              ></el-input>
             </el-form-item>
             <el-form-item label="公司邮箱">
               <el-input v-model="this.getcompanyinfo1.mailbox"></el-input>
@@ -50,8 +54,6 @@
             </el-form-item>
           </el-form>
         </el-tab-pane>
-    
-       
       </el-tabs>
       <!-- 分页 -->
       <el-pagination
@@ -79,16 +81,31 @@
           <el-button type="primary" @click="postroles">确 定</el-button>
         </span>
       </el-dialog>
+      <el-dialog title="权限" :visible="asshow" width="30%">
+        <el-tree
+          :props="{ label: 'name' }"
+          default-expand-all
+          node-key="id"
+          show-checkbox
+          :data="permissionList"
+          :default-checked-keys="defaultCheckKeys"
+        >
+        </el-tree>
+      </el-dialog>
     </div>
   </div>
 </template>
 
 <script>
-import { getRolesApi, addroles, removeroles } from '@/api/role'
+import { getRolesApi, addroles } from '@/api/role'
 import { getcompanyinfo } from '@/api/enterprise'
+import { getPermission } from '@/api/permission'
+import { listdesc } from '@/utils'
 export default {
- data() {
+  data() {
     return {
+      defaultCheckKeys: ['1', '1063315016368918528'],
+      permissionList: [],
       activeName: 'first',
       tableData: [],
       total: 0,
@@ -108,11 +125,18 @@ export default {
           }
         ]
       },
-      getcompanyinfo1:{}
+      getcompanyinfo1: {},
+      asshow: false
     }
   },
-
- methods: {
+  created() {
+    this.getPermission()
+  },
+  methods: {
+    //分配权限
+    isshowtnb() {
+      this.asshow = true
+    },
     async getRolesApi() {
       const { rows, total } = await getRolesApi({
         page: this.page,
@@ -156,8 +180,15 @@ export default {
       const res = await getcompanyinfo(
         this.$store.state.user.userinfo.companyId
       )
-     this.getcompanyinfo1=res
-     console.log(this.getcompanyinfo1);
+      this.getcompanyinfo1 = res
+      console.log(this.getcompanyinfo1)
+    },
+    async getPermission() {
+      const res = await getPermission()
+      // console.log(res)
+      const treePermissions = listdesc(res, '0')
+      // console.log(treePermissions)
+      this.permissionList = treePermissions
     }
   }
 }
