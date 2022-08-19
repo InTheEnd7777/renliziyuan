@@ -34,3 +34,25 @@ export function getuserinfoxq(id) {
     url: '/sys/user/' + id
   })
 }
+/**
+ *  更新用户信息
+ * @param {*} data
+ * @returns
+ */
+export function putinfolist(data) {
+  return request({
+    url: `/sys/user/${data.id}`,
+    method: 'PUT',
+    data
+  })
+}
+/** *
+ *  更新用户详情的基础信息
+ * **/
+export function updatePersonal(data) {
+  return request({
+    url: `/employees/${data.userId}/personalInfo`,
+    method: 'put',
+    data
+  })
+}

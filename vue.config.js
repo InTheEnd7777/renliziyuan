@@ -1,5 +1,4 @@
 'use strict'
-const { fstat } = require('fs')
 const path = require('path')
 const defaultSettings = require('./src/settings.js')
 
@@ -39,7 +38,7 @@ module.exports = {
     },
     proxy: {
       '/api': {
-        target: 'http://ihrm.itheima.net/'
+        target: 'http://ihrm-java.itheima.net/'
       }
     }
   },
