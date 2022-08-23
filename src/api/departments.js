@@ -6,54 +6,59 @@ import request from '@/utils/request'
  */
 export function getDeptsApi() {
   return request({
-    url: '/company/department'
+    url: '/company/department',
   })
 }
+
 /**
  * 删除部门
- * @param {*} id 部门id
+ * @param {*} id 要删除的部门id
  * @returns promise
  */
 export function delDeptsApi(id) {
   return request({
     url: '/company/department/' + id,
-    method: 'DELETE'
+    method: 'DELETE',
   })
 }
+
 /**
- * code		部门编码，同级部门不可重复
- * introduce		介绍
- * manager		负责人名称
- * name		部门名称
- * pid		父级部门ID
+ * 新增部门
+ * @param {Object} data
+ * code 部门编码，同级部门不可重复
+ * introduce 介绍
+ * manager 负责人名称
+ * name	部门名称
+ * pid	父级部门ID
  * @returns promise
  */
-export function addDeptsApi(data) {
+export function addDeptApi(data) {
   return request({
     url: '/company/department',
     method: 'POST',
-    data
+    data,
   })
 }
+
 /**
- *
- * @param {object} id
- * @returns promise
+ * 根据id获取部门详情
+ * @param {String} id 部门id
+ * @returns Promise
  */
-export function getDeptsByApi(id) {
+export function getDeptByIdApi(id) {
   return request({
-    url: '/company/department/' + id
+    url: '/company/department/' + id,
   })
 }
+
 /**
- * 
- * @param {object} data 
- * @returns promise
+ * 根据id修改部门详情
+ * @returns Promise
  */
-export function xiugaiDeptsBY(data) {
+export function editDeptsApi(data) {
   return request({
     url: '/company/department/' + data.id,
     method: 'PUT',
-    data
+    data,
   })
 }

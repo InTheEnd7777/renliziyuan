@@ -1,27 +1,29 @@
 <template>
   <div class="navbar">
+    {{ $t('message.hello') }}
     <hamburger
       :is-active="sidebar.opened"
       class="hamburger-container"
       @toggleClick="toggleSideBar"
     />
 
+    <!-- <breadcrumb class="breadcrumb-container" /> -->
     <div class="app-breadcrumb">
-      {{ $store.state.user.userinfo.companyName }}
+      {{ $store.state.user.userInfo.companyName }}
       <span class="breadBtn">体验版</span>
     </div>
 
     <div class="right-menu">
+      <ToggleLang />
+      <FullScreen />
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <img
-            :src="$store.state.user.userinfo.staffPhoto+123"
+            :src="$store.state.user.userInfo.staffPhoto"
             class="user-avatar"
-            v-imgError="defaulimg"
+            v-imgError="defaultImg"
           />
-          <span>
-            {{ $store.state.user.userinfo.username }}
-          </span>
+          <span>{{ $store.state.user.userInfo.username }}</span>
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
@@ -41,12 +43,13 @@
 import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
-import defaulimg from '@/assets/ji.jpg'
+import defaultImg from '@/assets/common/head.jpg'
 
 export default {
+  // 如果想在data中定义本地图片路径,需要先引入
   data() {
     return {
-      defaulimg
+      defaultImg
     }
   },
   components: {
@@ -75,6 +78,7 @@ export default {
   position: relative;
   background-image: -webkit-linear-gradient(left, #3d6df8, #5b8cff);
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+
   .app-breadcrumb {
     display: inline-block;
     font-size: 18px;
@@ -93,6 +97,7 @@ export default {
       margin-left: 15px;
     }
   }
+
   .hamburger-container {
     line-height: 46px;
     height: 100%;
@@ -100,8 +105,9 @@ export default {
     cursor: pointer;
     transition: background 0.3s;
     -webkit-tap-highlight-color: transparent;
-    color: #ffffff;
+    color: #fff;
     fill: currentColor;
+
     &:hover {
       background: rgba(0, 0, 0, 0.025);
     }
@@ -112,6 +118,7 @@ export default {
   }
 
   .right-menu {
+    display: flex;
     float: right;
     height: 100%;
     line-height: 50px;
@@ -143,11 +150,14 @@ export default {
 
       .avatar-wrapper {
         position: relative;
-        // margin-top: 5px;
-        // 开启flex
         display: flex;
         align-items: center;
         color: #fff;
+        cursor: pointer;
+
+        span {
+          margin: 0 3px;
+        }
 
         .user-avatar {
           cursor: pointer;
@@ -155,15 +165,11 @@ export default {
           height: 40px;
           border-radius: 10px;
         }
-        span {
-          margin: 0 5px;
-        }
 
         .el-icon-caret-bottom {
           cursor: pointer;
           position: absolute;
           right: -20px;
-          // top: 25px;
           font-size: 12px;
         }
       }

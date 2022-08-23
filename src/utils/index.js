@@ -40,7 +40,7 @@ export function parseTime(time, cFormat) {
     h: date.getHours(),
     i: date.getMinutes(),
     s: date.getSeconds(),
-    a: date.getDay()
+    a: date.getDay(),
   }
   const time_str = format.replace(/{([ymdhisa])+}/g, (result, key) => {
     const value = formatObj[key]
@@ -117,17 +117,19 @@ export function param2Obj(url) {
   })
   return obj
 }
+
 /**
- *
- * @param {Array} list 树形的数组
- * @param {id} pid  一级路由的id
- * @returns
+ * 将list数据处理为treeList
+ * @param {*} data 要处理的数据
+ * @param {*} pid 父级id
+ * @returns treeList
  */
-export function listdesc(data, pid) {
+export function transListToTree(data, pid) {
   const arr = []
   data.forEach((item) => {
     if (item.pid === pid) {
-      const children = listdesc(data, item.id)
+      // 当前: item 就是1级数据 item.id
+      const children = transListToTree(data, item.id)
       if (children.length) {
         item.children = children
       }

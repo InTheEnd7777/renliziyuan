@@ -5,24 +5,24 @@
       class="drawer-bg"
       @click="handleClickOutside"
     />
-
-    <!-- sidebar 侧边栏区域 -->
+    <!-- 侧边栏 -->
     <sidebar class="sidebar-container" />
-
-    <!-- 主体内容区域 -->
+    <!-- 主体内容 -->
     <div class="main-container">
-      <!-- navbar 头部区域 -->
+      <!-- 头部 -->
       <div :class="{ 'fixed-header': fixedHeader }">
+        <!-- 头部navbar组件 -->
         <navbar />
+        <TagsView/>
       </div>
-      <!-- 子路由占位 -->
+      <!-- 肯定是子路由占位 -->
       <app-main />
     </div>
   </div>
 </template>
 
 <script>
-import { Navbar, Sidebar, AppMain } from './components'
+import { Navbar, Sidebar, AppMain ,TagsView} from './components'
 import ResizeMixin from './mixin/ResizeHandler'
 
 export default {
@@ -30,7 +30,8 @@ export default {
   components: {
     Navbar,
     Sidebar,
-    AppMain
+    AppMain,
+    TagsView
   },
   mixins: [ResizeMixin],
   computed: {
@@ -48,15 +49,15 @@ export default {
         hideSidebar: !this.sidebar.opened,
         openSidebar: this.sidebar.opened,
         withoutAnimation: this.sidebar.withoutAnimation,
-        mobile: this.device === 'mobile'
+        mobile: this.device === 'mobile',
       }
-    }
+    },
   },
   methods: {
     handleClickOutside() {
       this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
-    }
-  }
+    },
+  },
 }
 </script>
 
